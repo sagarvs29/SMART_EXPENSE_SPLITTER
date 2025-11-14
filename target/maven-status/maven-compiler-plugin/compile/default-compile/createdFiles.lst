@@ -1,0 +1,7 @@
+com\app\MathOperations.class
+com\app\DatabaseConnector.class
+com\app\User.class
+com\app\App.class
+com\app\DatabaseException.class
+com\app\StringUtility.class
+com\app\UserRepository.class
