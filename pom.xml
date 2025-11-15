@@ -15,17 +15,59 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
+        <!-- Spring Boot version used for plugin & dependencies -->
+        <spring-boot.version>3.2.2</spring-boot.version>
     </properties>
 
     <dependencies>
-        <!-- PostgreSQL JDBC Driver (Required for Supabase connection) -->
+        <!-- Spring Boot Web for REST API layer -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <!-- MySQL connector (runtime) with explicit version -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- PostgreSQL JDBC Driver (keep existing) -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.7.3</version>
         </dependency>
 
-        <!-- JUnit for testing (updated version for modern testing) -->
+        <!-- Gson (optional; Spring uses Jackson by default) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
+        <!-- Spark Java (kept to compile existing WebApp.java without changing backend logic) -->
+        <dependency>
+            <groupId>com.sparkjava</groupId>
+            <artifactId>spark-core</artifactId>
+            <version>2.9.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- JUnit for testing (existing) -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -36,6 +78,13 @@
 
     <build>
         <plugins>
+            <!-- Spring Boot plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+
             <!-- Maven Compiler Plugin: Ensures Java 17 compatibility -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -46,14 +95,14 @@
                     <target>17</target>
                 </configuration>
             </plugin>
-            
+
             <!-- Maven Exec Plugin: Executes the main class -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <!-- Explicitly defines the main class to run -->
+                    <!-- If you later switch main class to SpringBootApp, update this value -->
                     <mainClass>com.app.App</mainClass>
                 </configuration>
             </plugin>

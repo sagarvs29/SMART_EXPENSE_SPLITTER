@@ -1,0 +1,29 @@
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# VS Code
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Java
+hs_err_pid*
+
+# Node / Vite frontend
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+
+# Env/config
+.env
+.env.*
+
+# Build outputs
+*.class

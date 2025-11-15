@@ -51,20 +51,20 @@ public class UserRepository {
      * Retrieves all user records.
      */
     public List<User> listAllUsers(Connection conn) {
-        String sql = "SELECT user_id, username, email, full_name, password_hash FROM public.users ORDER BY user_id";
+    String sql = "SELECT user_id, username, email, full_name, password_hash FROM public.users ORDER BY user_id";
         List<User> userList = new ArrayList<>();
         
         try (Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             
             while (resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
                 String username = resultSet.getString("username");
                 String email = resultSet.getString("email");
                 String fullName = resultSet.getString("full_name");
                 String passwordHash = resultSet.getString("password_hash");
 
-                // Note: User model still doesn't store user_id explicitly, simplifying model dependencies.
-                User user = new User(username, email, passwordHash, fullName);
+                User user = new User(userId, username, email, passwordHash, fullName);
                 userList.add(user);
             }
         } catch (SQLException e) {
